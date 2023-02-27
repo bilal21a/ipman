@@ -368,249 +368,9 @@
             })
         }
 
-        function submitRequestForm(type, formId) {
 
-            event.preventDefault();
-            var url = 'https://multiversepos.com/invoiceGenerating/:id';
-            url = url.replace(':id', type);
+      
 
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                file: true,
-                data: $(`.selectedDataForm${formId}`).serialize(),
-                success: function(responce) {
-
-                    myalert("success", responce[0], 5000);
-                    if (type == 'accept') {
-                        $(`.selectedDataForm${responce[1]}`).hide();
-                        $(`.accept_${responce[1]}`).show();
-                    } else {
-                        $(`.selectedDataForm${responce[1]}`).hide();
-                        $(`.reject_${responce[1]}`).show();
-                    }
-                },
-            });
-        }
-
-        function readNotification() {
-
-            $.ajax({
-                type: "Get",
-                url: "https://multiversepos.com/getselectedData/readNotification",
-                success: function(data) {
-                    $(".notification_area").html("")
-                },
-
-            });
-        }
-
-        $(document).ready(function() {
-
-            $('.btn-loader').show();
-            $(".custom_scroll").addClass("sroll_design");
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: "Get",
-                url: "https://multiversepos.com/oldActivityLog",
-                success: function(data) {
-                    if (data[1] == 0) {
-                        //
-                        $(".empty_data_1").show();
-                    }
-                    ShowNotification(data)
-                    if (testing == 'home') {
-                        ShowHomeNotification(data)
-                    }
-                    //For new Updated Activity Logs
-                    $.ajax({
-                        type: "Get",
-                        url: "https://multiversepos.com/newActivityLog",
-                        success: function(data) {
-                            if (data[3] == 0) {
-
-                                $(".empty_data_3").show();
-                            }
-                            $(".activity_spinner").hide();
-
-                            ShowNotification(data)
-                            if (testing == 'home') {
-                                ShowHomeNotification(data)
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            $('.btnLoader').hide();
-                            $(".custom_scroll").removeClass("sroll_design");
-                        },
-                    });
-                },
-                error: function(xhr, status, error) {
-                    $('.btnLoader').hide();
-
-                    $(".custom_scroll").removeClass("sroll_design");
-                },
-            });
-
-
-            // selected data notification
-            $.ajax({
-                type: "Get",
-                url: "https://multiversepos.com/getselectedData",
-                success: function(data) {
-                    if (data != '') {
-                        $(".timeline_data").html(data);
-
-                    } else {
-                        var empty =
-                            '<div class="   position-absolute translate-middle top-0 mt-10 start-50 "> <h3> No Request </h3></div>'
-                        $(".timeline_data").html(empty);
-
-                    }
-
-                },
-
-            });
-
-
-
-            // $('#accept_request').click(function() {
-            //
-            //     event.preventDefault();
-
-            //     // var formData = new FormData(this);
-            //     // $('.btnLoader').css('display', 'inline-block');
-            //     // $('.btn-save').attr('disabled', 'disabled');
-            //     // $.ajaxSetup({
-            //     //     headers: {
-            //     //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     //     }
-            //     // });
-
-            //     // $.ajax({
-            //     //         type: 'POST',
-            //     //         url: 'https://multiversepos.com/invoiceGenerating/:id',
-            //     //         file: true,
-            //     //         data: $('#selectedDataForm').serialize(),
-            //     //         success: function(response) {
-            //     //
-            //     //             if (response.status == 'error') {
-            //     //                 $('#alert').prepend(
-            //     //                     '<div class="alert alert-danger">messages.smtpError</div>')
-            //     //             } else {
-            //     //                 $('#alert').show();
-            //     //             }
-            //     //         }
-            //     //     });
-            //     // $.ajax({
-            //     //     type: "POST",
-            //     //     url: 'https://multiversepos.com/invoiceGenerating/:id',
-            //     //     data: formData,
-            //     //     success: function(responce) {
-            //     //         myalert("success", responce, 5000);
-            //     //         $('.accept').hide();
-
-            //     //         var message=  '<div class="   position-absolute translate-middle top-0 mt-10 start-50 "> <h3> No Request </h3></div>'
-            //     //           $(".option_btn").html(message);
-            //     //         $('.btn-save').attr('disabled', false);
-            //     //     },
-            //     //     error: function(xhr, status, error) {
-            //     //
-            //     //         $('.btnLoader').hide();
-            //     //         $('.btn-save').attr('disabled', false);
-            //     //         myalert("error", xhr.responseJSON.message, 10000);
-            //     //     },
-            //     //     cache: false,
-            //     //     contentType: false,
-            //     //     processData: false
-            //     // });
-            // });
-            $.ajax({
-                type: "Get",
-                url: "https://multiversepos.com/getselectedData",
-                success: function(data) {
-                    if (data != '') {
-
-                        $(".timeline_data").html(data);
-
-                    } else {
-                        var empty =
-                            '<div class="   position-absolute translate-middle top-0 mt-10 start-50 "> <h3> No Request </h3></div>'
-                        $(".timeline_data").html(empty);
-
-                    }
-
-                },
-
-            });
-
-
-            $.ajax({
-                type: "Get",
-                url: "https://multiversepos.com/getselectedData/notification",
-                success: function(notification) {
-
-                    //  $(".timeline_data").html(data);
-                    var notified =
-                        '<span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 mt-4 start-50 animation-blink"></span>'
-                    //
-                    if (notification == "false") {
-                        $(".notification_area").html(notified);
-                    } else {
-                        $(".notification_area").html("");
-
-                    }
-
-                },
-
-            });
-
-
-        });
-
-
-        function ShowNotification(data) {
-            $('.btn-loader').hide();
-            $(".custom_scroll").removeClass("scroll_design");
-
-            $('.custom_scroll').html('');
-
-            data[0].forEach(element => {
-                var span;
-                if (element.processed == 0) {
-                    span =
-                        `<span class="w-80px badge badge-light-info me-4">Pending
-                                    </span>
-                                    <a href="#" class="text-gray-800 text-hover-primary fw-bold">${element.activity_type} in process</a>`;
-
-                } else if (element.processed == 1) {
-                    span =
-
-                        `<span class="w-80px badge badge-light-success me-4">Completed
-                                    </span>
-                                    <a href="#" class="text-gray-800 text-hover-primary fw-bold">${element.activity_type} processed</a>`;
-                } else {
-                    span =
-                        `<span class="w-80px badge badge-light-danger me-4">
-                                    Error</span>
-                                    <a href="#" class="text-gray-800 text-hover-primary fw-bold">${element.activity_type} fialed</a>`;
-                }
-                var activity = `
-                        <div class="d-flex flex-stack py-4">
-                            <div class="d-flex align-items-center me-2">
-                                ${span}
-                            </div>
-                            <span class="badge badge-light fs-8">${element.date_format}</span>
-                        </div>`;
-                $('.custom_scroll').append(activity);
-            });
-            $('.total_count').html(`Logs<sup >${data[1]}</sup>`);
-        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
@@ -637,7 +397,7 @@
                     },
                     processing: true,
                     serverSide: true,
-                    ajax: "https://multiversepos.com/product/getProductData",
+                    ajax: "{{ route('getdata') }}",
                     columns: [
 
                         {
@@ -647,32 +407,18 @@
                             searchable: false
                         },
                         {
-                            data: 'image',
-                            name: 'image',
+                            data: 'ip_address',
+                            name: 'ip_address',
                             orderable: true,
                             searchable: true
                         },
                         {
-                            data: 'productname',
-                            name: 'productname'
+                            data: 'description',
+                            name: 'description'
                         },
                         {
-                            data: 'productcode',
-                            name: 'productcode'
-                        },
-
-                        {
-                            data: 'purchase_price',
-                            name: 'purchase_price'
-                        },
-                        {
-                            data: 'sale_price',
-                            name: 'sale_price'
-                        },
-
-                        {
-                            data: 'stock',
-                            name: 'stock'
+                            data: 'date_added',
+                            name: 'date_added'
                         },
                         {
                             data: 'action',
