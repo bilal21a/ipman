@@ -11,18 +11,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link href="https://multiversepos.com/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="https://multiversepos.com/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
 
-    <link href="https://multiversepos.com/css/custom.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link rel='stylesheet' type='text/css' property='stylesheet'
-        href='//localhost/sspos/_debugbar/assets/stylesheets?v=1644393152&theme=auto'>
-    <script src='//localhost/sspos/_debugbar/assets/javascript?v=1644393152'></script>
+    <link href="{{ asset('assets/custom.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 
 </head>
 
@@ -109,7 +107,7 @@
                                         <div class="topbar-item cursor-pointer symbol px-3 px-lg-5 me-n3 me-lg-n5 symbol-30px symbol-md-35px"
                                             data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                                             data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
-                                            <img src="https://multiversepos.com/Default/favicon.ico" alt="metronic" />
+                                            <img src="{{ asset('assets/admin.png') }}" alt="metronic" />
                                         </div>
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold py-4 fs-6 w-275px"
                                             data-kt-menu="true">
@@ -117,26 +115,20 @@
                                                 <div class="menu-content d-flex align-items-center px-3">
                                                     <div class="symbol symbol-50px me-5">
                                                         <img alt="Logo"
-                                                            src="https://multiversepos.com/Default/favicon.ico" />
+                                                            src="{{ asset('assets/admin.png') }}" />
                                                     </div>
                                                     <div class="profile_link d-flex flex-column">
                                                         <div class="fw-bolder d-flex align-items-center fs-5">
-                                                            CakesBakes Main
+                                                            Superadmin
                                                             <span
                                                                 class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">admin</span>
                                                         </div>
                                                         <a href="#"
-                                                            class="fw-bold text-muted text-hover-primary fs-7">bilal@gmail.com</a>
+                                                            class="fw-bold text-muted text-hover-primary fs-7">admin@ipman.com</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="separator my-2"></div>
-                                            <div class="menu-item px-5">
-                                                <a href="#/profile" class="menu-link px-5">Profile</a>
-                                            </div>
-                                            <div class="menu-item px-5">
-                                                <a href="#/site-settings" class="menu-link px-5">Site setting</a>
-                                            </div>
 
                                             <div class="menu-item px-5">
                                                 <form action="https://multiversepos.com/logout" method="post">
@@ -215,18 +207,40 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Csv Bulk Products</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Add new Address</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <form method="post" enctype="multipart/form-data" id="save_file">
-                                    <input type="hidden" name="_token"
-                                        value="FU898jYR0fcSkgeNYICB1XB3KvCOrE0QBlE05GVQ">
+                                    @csrf
                                     <div class="modal-body">
                                         <div class="mb-10">
-                                            <label class="form-label">Default input</label>
-                                            <input type="text" class="form-control"
-                                                placeholder="name@example.com">
+                                            <label class="form-label">IP Address</label>
+                                            <input type="text" class="form-control" placeholder="192.168.100.100">
+                                        </div>
+                                        <div class="mb-10">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control" id="form-label" rows="3" placeholder="description"></textarea>
+                                        </div>
+                                        <div class="mb-10">
+                                            <label class="form-label">Location</label>
+                                            <input type="text" class="form-control" placeholder="location">
+                                        </div>
+                                        <div class="mb-10">
+                                            <label class="form-label">Previous</label>
+                                            <input type="text" class="form-control" placeholder="Previous">
+                                        </div>
+                                        <div class="mb-10">
+                                            <label class="form-label">Type</label>
+                                            <select class="form-control" id="form-label">
+                                                <option>server</option>
+                                                <option>open IP</option>
+                                                <option>Switch/Router</option>
+                                                <option>Printers</option>
+                                                <option>DHCP</option>
+                                                <option>Special Devices</option>
+                                                <option>PCs</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -374,7 +388,7 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <script src="https://multiversepos.com/js/checked.js"></script>
+    <script src="{{ asset('assets/checked.js') }}"></script>
     <script type="text/javascript">
         $(function() {
             Otable =
@@ -511,7 +525,7 @@
             let checkBox = document.getElementsByClassName('delete-all-checkBox')[0];
             if (checkBox_array.length && checkBox.checked) {
                 checkBox.checked = false;
-            } 
+            }
         }
 
         function ShowProduct(id) {

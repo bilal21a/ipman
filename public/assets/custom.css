@@ -1,0 +1,209 @@
+#kt_footer {
+    background-color: white !important;
+}
+
+.btn_as_a {
+    border: none;
+    background: none;
+    color: #009ef7;
+    font-weight: bold;
+    width: 19rem;
+    text-decoration: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: 1px solid #fff !important;
+    background: none !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    background-color: #fff !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: rgb(141, 141, 141);
+}
+
+.btnLoader {
+    display: none;
+}
+
+.scroll_design {
+    text-align: center !important;
+    overflow: hidden !important;
+}
+
+.activity_display {
+    overflow: hidden !important;
+}
+
+.timeline-label::before {
+    left: 1px !important;
+}
+
+.activity_badge {
+    margin-left: 100px;
+}
+
+.activity_display:hover {
+    overflow: scroll !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    .activity_display {
+        overflow: scroll !important;
+    }
+
+    .card-body.pt-5.activity_display {
+        height: 500px;
+    }
+}
+
+.activity-loader {
+    display: none;
+}
+
+.all_select {
+    height: 2.5em;
+    padding: 7px !important;
+}
+
+.sales_text:hover {
+    color: #15A6F8 !important;
+}
+
+.empty_data_1 {
+    text-align: center;
+}
+
+.empty_data_3 {
+    text-align: center;
+}
+
+.activity_spinner {
+    width: 100%;
+    height: 150px;
+    text-align: center;
+}
+
+.activity_svg {
+    width: 22%;
+    fill: none;
+}
+
+.load {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 0.7 0.3;
+    stroke-linecap: round;
+    stroke-width: 3px;
+    stroke: #489ef7;
+}
+
+.load.one {
+    animation: load 1.5s infinite ease-in;
+    animation-direction: reverse;
+}
+
+.load.two {
+    fill: #489ef7;
+}
+
+.load.three {
+    animation: load 1.5s infinite;
+}
+
+@keyframes load {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        background-color: lightblue;
+    }
+}
+
+.dataTables_empty {
+    margin: auto !important;
+    text-align: center !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    outline: none !important;
+}
+
+input[type=checkbox] {
+    margin-right: 0;
+}
+
+/* .roleEdit:hover{
+    color: #009ef7 !important;
+} */
+.admin_name {
+    color: #ED4293 !important;
+}
+
+.hoverclass:hover {
+    color: #009ef7 !important;
+    cursor: pointer !important;
+}
+
+.permission_add :hover {
+    color: #009ef7 !important;
+
+}
+
+#kt_permissions_table_length {
+    display: none !important;
+}
+
+#kt_permissions_table_filter {
+    display: none !important;
+}
+
+.role_permission {
+    height: 335px !important;
+    overflow: hidden !important;
+}
+
+/* .role_permission:hover{
+    overflow: scroll !important;
+} */
+.viewDetailCard {
+    height: 335px !important;
+    width: 310px !important;
+    overflow: hidden !important;
+}
+
+.viewDetailCard:hover {
+    overflow: scroll !important;
+}
+
+.filter_btn:hover {
+    color: black !important;
+    background: none !important;
+    cursor: default !important;
+}
+
+.date_text:hover {
+    color: black !important;
+}
+
+.getProductDetail {
+    color: black;
+}
+
+.getProductDetail:hover {
+    color: black;
+    cursor: auto;
+}
