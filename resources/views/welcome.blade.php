@@ -8,7 +8,7 @@
     <link rel="shortcut icon"
         href="https://w7.pngwing.com/pngs/463/207/png-transparent-wing-chun-shifu-self-defense-ip-man-wing-chun-leaf-text-silhouette.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="csrf-token" content="FU898jYR0fcSkgeNYICB1XB3KvCOrE0QBlE05GVQ">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link href="https://multiversepos.com/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -161,8 +161,6 @@
                 </div>
 
                 <div class="d-flex flex-column flex-column-fluid" id="kt_content">
-
-
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <div id="kt_content_container" class="container-fluid bg-white">
                             <div class="row gy-5 g-xl-8">
@@ -178,7 +176,7 @@
                                 Add IP</a>
 
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-all"
-                                style="display: none" data-url="https://multiversepos.com/product/bulk/delete">
+                                style="display: none" data-url="{{ route('ip_bulk_delete') }}">
                                 <i class="fa fa-trash"></i>
                                 Delete Selected (<span id="lengthcek" style="font-weight: bolder;">0 </span> )
                             </a>
@@ -367,10 +365,6 @@
                 title: title
             })
         }
-
-
-      
-
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
@@ -443,12 +437,12 @@
         var delmessage = "Are you sure you want to delete?";
 
         function ConfirmDelete(id) {
-
             let singleDeleteDraw = {
                 ...Otable
             };
+            var url = '{{ route('delete_address', ':id') }}';
+            url = url.replace(':id', id);
             event.preventDefault();
-            let url = `product/delete_product/${id}`;
             swal({
                 title: 'Are you sure you want to delete?',
                 type: 'warning',
@@ -465,7 +459,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(data) {
-                        myalert("success", 'Product Delete Successfully', 1000);
+                        myalert("success", 'Address Delete Successfully', 1000);
                         singleDeleteDraw.draw();
                     },
                 });
@@ -474,79 +468,9 @@
 
         }
 
-        function CahngeTextbox(event, id) {
-            let chked = event.target.checked ? 'Enabled' : 'Disabled';
-            $.ajax({
-                type: 'GET',
-                url: 'product/statusChange/' + event.target.checked + '/' + id,
-                dataType: 'json',
-                success: function(data) {
-                    myalert("success", "Product Status Changed", 1000);
-                    let res = document.getElementById(`prod_label_${data}`);
-                    res.innerHTML = chked;
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        }
-
-        //FOR MODEL OF BULK PRODUCTS
-        $('#save_file').on('submit', function(e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-            $('.btnLoader').css('display', 'inline-block');
-            $('.btn-save').attr('disabled', 'disabled');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: "POST",
-                url: "https://multiversepos.com/product/bulk/save",
-                data: formData,
-                success: function(responce) {
-                    myalert("success", responce, 5000);
-                    var frm = $('#save_file')[0];
-                    frm.reset();
-                    $('.btnLoader').hide();
-                    $('.btn-save').attr('disabled', false);
-                    Otable.draw();
-                    return false;
-                },
-                error: function(xhr, status, error) {
-                    console.log('error: ', error);
-                    $('.btnLoader').hide();
-                    $('.btn-save').attr('disabled', false);
-                    myalert("error", xhr.responseJSON.message, 10000);
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-
-        });
 
         function syncbtn() {
-
-            axios.get("https://multiversepos.com/product/updateStock")
-                .then(function(response) {
-                    Otable.draw();
-                    console.log(response.data);
-                })
-        }
-
-        function synchronize(id) {
-            console.log('id: ', id);
-
-            var url = `product/updateStock/${id}`
-            axios.get(url)
-                .then(function(response) {
-                    // Otable.draw();
-                    console.log(response.data);
-                })
+            Otable.draw();
         }
 
 
@@ -587,12 +511,7 @@
             let checkBox = document.getElementsByClassName('delete-all-checkBox')[0];
             if (checkBox_array.length && checkBox.checked) {
                 checkBox.checked = false;
-                //    flag = false;
-            } else {
-                // flag = true;
-                // checkBox.checked = false;
-
-            }
+            } 
         }
 
         function ShowProduct(id) {
@@ -608,10 +527,7 @@
                 },
                 success: function(data) {
                     console.log('data: ', data);
-
-
                     $('.productDetail').html(data);
-
                 },
             });
         }

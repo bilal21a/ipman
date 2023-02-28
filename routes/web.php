@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::get('/getdata', 'HomeController@getdata')->name('getdata');
+Route::delete('address/bulk/delete', 'HomeController@ip_bulk_delete')->name('ip_bulk_delete');
+Route::get('address/delete/{id}', 'HomeController@delete_address')->name('delete_address');
+

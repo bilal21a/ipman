@@ -35,4 +35,24 @@ class HomeController extends Controller
             return 'Not AuthorizesRequest';
         }
     }
+
+    public function ip_bulk_delete(Request $request)
+    {
+        if ($request->ajax()) {
+            foreach ($request->id as $row => $key) {
+                $address = Address::find($request->id[$row]);
+                $address->delete();
+            }
+        }
+        return response()->json([
+            'message' => 'Addresses Deleted Successfully!'
+        ]);
+    }
+
+    public function delete_address($id)
+    {
+        $address = Address::find($id);
+        $address->delete();
+        return "deleted";
+    }
 }
