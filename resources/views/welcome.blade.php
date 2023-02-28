@@ -114,8 +114,7 @@
                                             <div class="menu-item px-3">
                                                 <div class="menu-content d-flex align-items-center px-3">
                                                     <div class="symbol symbol-50px me-5">
-                                                        <img alt="Logo"
-                                                            src="{{ asset('assets/admin.png') }}" />
+                                                        <img alt="Logo" src="{{ asset('assets/admin.png') }}" />
                                                     </div>
                                                     <div class="profile_link d-flex flex-column">
                                                         <div class="fw-bolder d-flex align-items-center fs-5">
@@ -165,7 +164,7 @@
                             <a class="btn btn-sm btn-flex btn-success fw-bolder " data-bs-toggle="modal"
                                 data-bs-target="#exampleModal">
                                 <i class="fas fa-plus fa-2x common_icon"></i>
-                                Add IP</a>
+                                Add Address</a>
 
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-all"
                                 style="display: none" data-url="{{ route('ip_bulk_delete') }}">
@@ -216,23 +215,27 @@
                                     <div class="modal-body">
                                         <div class="mb-10">
                                             <label class="form-label">IP Address</label>
-                                            <input type="text" class="form-control" placeholder="192.168.100.100">
+                                            <input type="text" class="form-control" name="ip_address"
+                                                placeholder="192.168.100.100" required>
                                         </div>
                                         <div class="mb-10">
                                             <label class="form-label">Description</label>
-                                            <textarea class="form-control" id="form-label" rows="3" placeholder="description"></textarea>
+                                            <textarea class="form-control" id="form-label" name="description" rows="3" placeholder="description"
+                                                required></textarea>
                                         </div>
                                         <div class="mb-10">
                                             <label class="form-label">Location</label>
-                                            <input type="text" class="form-control" placeholder="location">
+                                            <input type="text" class="form-control" name="location"
+                                                placeholder="location" required>
                                         </div>
                                         <div class="mb-10">
                                             <label class="form-label">Previous</label>
-                                            <input type="text" class="form-control" placeholder="Previous">
+                                            <input type="text" class="form-control" name="previous"
+                                                placeholder="Previous" required>
                                         </div>
                                         <div class="mb-10">
                                             <label class="form-label">Type</label>
-                                            <select class="form-control" id="form-label">
+                                            <select class="form-control" name="type" id="form-label" required>
                                                 <option>server</option>
                                                 <option>open IP</option>
                                                 <option>Switch/Router</option>
@@ -243,6 +246,30 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary btn-save">
+                                            <span class="btn-text">Save Changes</span>
+                                            <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2 btnLoader"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="post" enctype="multipart/form-data" id="update_form">
+                                    @csrf
+                                    <div class="show_edit">loading ...</div>
                                     <div class="modal-footer">
                                         <button class="btn btn-primary btn-save">
                                             <span class="btn-text">Save Changes</span>
@@ -445,6 +472,95 @@
                     }
                 });
             console.log("i m func");
+        });
+
+        function showEditForm(id) {
+            console.log('id: ', id);
+            var url = '{{ route('edit_address', ':id') }}';
+            url = url.replace(':id', id);
+            $.get(url, function(data, status) {
+                $('.show_edit').html(data)
+            });
+
+        }
+
+        $('#save_file').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            console.log(formData);
+            $('.btnLoader').css('display', 'inline-block');
+            $('.btn-save').attr('disabled', 'disabled');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "{{ route('address_save') }}",
+                data: formData,
+                success: function(responce) {
+                    console.log('responce: ', responce);
+                    myalert("success", responce, 5000);
+                    $('#exampleModal').modal('hide')
+                    var frm = $('#save_file')[0];
+                    frm.reset();
+                    Otable.draw();
+                    $('.btnLoader').hide();
+                    $('.btn-save').attr('disabled', false);
+                    return false;
+                },
+                error: function(xhr, status, error) {
+                    console.log('error: ', error);
+                    myalert("error", xhr.responseJSON.message, 10000);
+                    $('.btnLoader').hide();
+                    $('.btn-save').attr('disabled', false);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
+        });
+        $('#update_form').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            console.log(formData);
+            $('.btnLoader').css('display', 'inline-block');
+            $('.btn-save').attr('disabled', 'disabled');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "{{ route('address_update') }}",
+                data: formData,
+                success: function(responce) {
+                    console.log('responce: ', responce);
+                    myalert("success", responce, 5000);
+                    $('#editModal').modal('hide')
+                    var frm = $('#update_form')[0];
+                    frm.reset();
+                    Otable.draw();
+                    $('.btnLoader').hide();
+                    $('.btn-save').attr('disabled', false);
+                    return false;
+                },
+                error: function(xhr, status, error) {
+                    console.log('error: ', error);
+                    myalert("error", xhr.responseJSON.message, 10000);
+                    $('.btnLoader').hide();
+                    $('.btn-save').attr('disabled', false);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
         });
 
         // delete alert

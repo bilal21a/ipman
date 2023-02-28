@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
+    protected $fillable = [
+        'ip_address', 'description', 'location', 'previous', 'type'
+    ];
 }
