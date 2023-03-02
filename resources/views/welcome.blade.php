@@ -281,6 +281,21 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="pingmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title pingtitle" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="pingdata">Loading <i class="fa fa-spinner fa-spin"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -349,7 +364,7 @@
                         <!--begin::Copyright-->
                         <div class="text-dark order-2 order-md-1">
                             <span class="text-muted fw-bold me-1">2023©</span>
-                            <a href="#" class="text-gray-800 text-hover-primary">Pingme</a>
+                            <a href="#" class="text-gray-800 text-hover-primary">IP man</a>
                         </div>
                         <!--end::Copyright-->
                         <!--begin::Menu-->
@@ -482,6 +497,18 @@
                 $('.show_edit').html(data)
             });
 
+        }
+
+        function pingme(id, type) {
+            console.log('type: ', type);
+            $('.pingtitle').html(type)
+            $('.pingdata').html('<div class="pingdata">loading <i class="fa fa-spinner fa-spin"></i></div>')
+            var url = '{{ route('ping_address', [':id', ':type']) }}';
+            url = url.replace(':id', id);
+            url = url.replace(':type', type);
+            $.get(url, function(data, status) {
+                $('.pingdata').html(data)
+            });
         }
 
         $('#save_file').on('submit', function(e) {

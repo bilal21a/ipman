@@ -24,4 +24,5 @@ Route::post('address/save', 'HomeController@address_save')->name('address_save')
 Route::post('address/update', 'HomeController@address_update')->name('address_update');
 
 Route::get('address/edit/{id}', 'HomeController@edit_address')->name('edit_address');
+Route::get('address/ping/{id}/{type}', 'HomeController@ping_address')->name('ping_address');
 
