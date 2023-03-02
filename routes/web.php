@@ -23,5 +23,5 @@ Route::post('address/update', 'HomeController@address_update')->name('address_up
 
 Route::get('address/edit/{id}', 'HomeController@edit_address')->name('edit_address');
 Route::get('address/ping/{id}/{type}', 'HomeController@ping_address')->name('ping_address');
-Route::post('address/filter', 'HomeController@address_filter')->name('address_filter');
+Route::get('address/export/{start?}/{end?}', 'HomeController@export_address')->name('export_address');
 

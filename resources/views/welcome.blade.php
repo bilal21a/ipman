@@ -80,7 +80,7 @@
                         </div>
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <a href="index.html" class="d-lg-none">
-                                <img alt="Logo" src="https://multiversepos.com/settings/logo_img.png"
+                                <img alt="Logo responsive" src=""
                                     class="h-30px" />
                             </a>
                         </div>
@@ -90,9 +90,8 @@
                                     data-kt-drawer-name="header-menu"
                                     data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true"
                                     data-kt-drawer-width="{default:'200px', '300px': '250px'}"
-                                    data-kt-drawer-direction="end"
-                                    data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-place="true"
-                                    data-kt-place-mode="prepend"
+                                    data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle"
+                                    data-kt-place="true" data-kt-place-mode="prepend"
                                     data-kt-place-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
                                     <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
                                         id="#kt_header_menu" data-kt-menu="true">
@@ -185,6 +184,9 @@
                                     Filter Address</a>
                             @endif
 
+                            <a class="btn btn-sm btn-flex btn-info fw-bolder" href="{{ route('export_address',[$start_ip,$end_ip]) }}">
+                                <i class="fas fa-file-export fa-2x common_icon"></i>
+                                Export CSV</a>
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-all"
                                 style="display: none" data-url="{{ route('ip_bulk_delete') }}">
                                 <i class="fa fa-trash"></i>

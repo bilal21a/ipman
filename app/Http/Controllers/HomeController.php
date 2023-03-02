@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $start_ip = $request->start_ip??null;
-        $end_ip = $request->end_ip??null;
-        return view('welcome',compact('start_ip', 'end_ip'));
+
+        // -------------
+        $start_ip = $request->start_ip ?? null;
+        $end_ip = $request->end_ip ?? null;
+        return view('welcome', compact('start_ip', 'end_ip'));
     }
     public function getdata(Request $request)
     {
@@ -20,7 +23,7 @@ class HomeController extends Controller
         if ($request->ajax()) {
             if ($request->start_ip) {
                 $data = Address::whereRaw("INET_ATON(ip_address) BETWEEN INET_ATON('$request->start_ip') AND INET_ATON('$request->end_ip')")->get();
-            }else{
+            } else {
                 $data = Address::latest()->get();
             }
             return Datatables::of($data)
@@ -115,14 +118,38 @@ class HomeController extends Controller
         $address = Address::find($id);
         return view('component.editform', compact('address'));
     }
-    public function address_filter(Request $request)
+    public function export_address($start_ip = null, $end_ip = null)
     {
+        $tableName = 'addresses';
+        $columns = ['id', 'ip_address', 'description', 'location', 'previous', 'type', 'created_at'];
+        $columns_show = ['id', 'IP Address', 'Description', 'Location', 'Previous', 'Type', 'Date Added'];
 
-        $startIp = $request->start_ip;
-        $endIp = $request->end_ip;
+        $fileName = 'export.csv';
+        $headers = [
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => sprintf('attachment; filename="%s"', $fileName),
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
 
-        $addresses = Address::whereRaw("INET_ATON(ip_address) BETWEEN INET_ATON('$startIp') AND INET_ATON('$endIp')")->get();
-        dd($addresses);
+        $stream = fopen('php://temp', 'w+');
+        fputcsv($stream, $columns_show);
+
+        if ($start_ip != null) {
+            $rows = DB::table($tableName)->select($columns)->whereRaw("INET_ATON(ip_address) BETWEEN INET_ATON('$start_ip') AND INET_ATON('$end_ip')")->get();
+        } else {
+            $rows = DB::table($tableName)->select($columns)->get();
+        }
+        foreach ($rows as $row) {
+            fputcsv($stream, (array) $row);
+        }
+
+        rewind($stream);
+        $response = response(stream_get_contents($stream), 200, $headers);
+        fclose($stream);
+
+        return $response;
     }
     public function ping_address($id, $type)
     {
@@ -155,7 +182,7 @@ class HomeController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            return "<div class='alert alert-danger' role='alert'>".$th->getMessage()."</div>";
         }
     }
 
