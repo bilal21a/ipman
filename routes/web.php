@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::match(['get', 'post'], '/', 'HomeController@index')->name('address');
 Route::get('/getdata', 'HomeController@getdata')->name('getdata');
 Route::delete('address/bulk/delete', 'HomeController@ip_bulk_delete')->name('ip_bulk_delete');
 Route::get('address/delete/{id}', 'HomeController@delete_address')->name('delete_address');
@@ -25,4 +23,5 @@ Route::post('address/update', 'HomeController@address_update')->name('address_up
 
 Route::get('address/edit/{id}', 'HomeController@edit_address')->name('edit_address');
 Route::get('address/ping/{id}/{type}', 'HomeController@ping_address')->name('ping_address');
+Route::post('address/filter', 'HomeController@address_filter')->name('address_filter');
 

@@ -23,13 +23,18 @@
 
 
 </head>
+<style>
+    .badge {
+        border-radius: 24px;
+    }
+</style>
 
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
     style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
     <div class="d-flex flex-column flex-root">
         <div class="page d-flex flex-row flex-column-fluid">
-            <div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true"
+            {{-- <div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true"
                 data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}"
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
@@ -63,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <div id="kt_header" style="" class="header align-items-stretch">
@@ -92,7 +97,7 @@
                                     <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
                                         id="#kt_header_menu" data-kt-menu="true">
                                         <div class="menu-item me-lg-1">
-                                            <a class="menu-link active py-3" href="https://multiversepos.com/home">
+                                            <a class="menu-link active py-3" href="#">
                                                 <span class="menu-title">Dashboard</span>
                                             </a>
                                         </div>
@@ -158,6 +163,9 @@
                                 <div class="col-md-12">
                                     <div class="mb-13 text-center mt-13">
                                         <h1 class="mb-3">Dashboard</h1>
+                                        @isset($start_ip)
+                                            <h5 class="mb-3">({{ $start_ip }}) - ({{ $end_ip }})</h5>
+                                        @endisset
                                     </div>
                                 </div>
                             </div>
@@ -165,6 +173,17 @@
                                 data-bs-target="#exampleModal">
                                 <i class="fas fa-plus fa-2x common_icon"></i>
                                 Add Address</a>
+
+                            @if (isset($start_ip))
+                                <a class="btn btn-sm btn-flex btn-danger fw-bolder" href="{{ route('address') }}">
+                                    <i class="fas fa-ban fa-2x common_icon"></i>
+                                    Clear Filter</a>
+                            @else
+                                <a class="btn btn-sm btn-flex btn-primary fw-bolder " data-bs-toggle="modal"
+                                    data-bs-target="#filterModal">
+                                    <i class="fas fa-filter fa-2x common_icon"></i>
+                                    Filter Address</a>
+                            @endif
 
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-all"
                                 style="display: none" data-url="{{ route('ip_bulk_delete') }}">
@@ -189,6 +208,8 @@
                                         <th class="min-w-10px">ID</th>
                                         <th class="min-w-50px">IP address</th>
                                         <th class="min-w-250px">Description</th>
+                                        <th class="min-w-250px">Location</th>
+                                        <th class="min-w-250px">Previous</th>
                                         <th class="min-w-150px">Created Date</th>
                                         <th class="min-w-50px text-end">Actions</th>
                                     </tr>
@@ -296,6 +317,41 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Filter Address Range</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="POST" enctype="multipart/form-data" id=""
+                                    action="{{ route('address') }}">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="mb-10">
+                                            <label class="form-label">Start IP Address</label>
+                                            <input type="text" class="form-control" name="start_ip"
+                                                placeholder="192.168.100.100" required>
+                                        </div>
+                                        <div class="mb-10">
+                                            <label class="form-label">End IP Address</label>
+                                            <input type="text" class="form-control" name="end_ip"
+                                                placeholder="192.168.100.110" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary btn-save">
+                                            <span class="btn-text">Save Changes</span>
+                                            <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2 btnLoader"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -378,7 +434,8 @@
         </div>
     </div>
 
-
+    <input type="hidden" value="{{ $start_ip }}" id="start_ip">
+    <input type="hidden" value="{{ $end_ip }}" id="end_ip">
 
 
     <input type="hidden" value="Are you sure you want to delete?" id="del_msg">
@@ -433,6 +490,15 @@
     <script src="{{ asset('assets/checked.js') }}"></script>
     <script type="text/javascript">
         $(function() {
+            var start_ip = $('#start_ip').val();
+            var end_ip = $('#end_ip').val();
+            console.log('start_ip: ', start_ip);
+            if (start_ip != '' && end_ip != '') {
+                console.log("if");
+                url = "{{ route('getdata') }}?start_ip=" + start_ip + "&end_ip=" + end_ip;
+            } else {
+                url = "{{ route('getdata') }}"
+            }
             Otable =
                 $('.Product_table').DataTable({
                     "language": {
@@ -447,7 +513,7 @@
                     },
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('getdata') }}",
+                    ajax: url,
                     columns: [
 
                         {
@@ -465,6 +531,14 @@
                         {
                             data: 'description',
                             name: 'description'
+                        },
+                        {
+                            data: 'location',
+                            name: 'location'
+                        },
+                        {
+                            data: 'previous',
+                            name: 'previous'
                         },
                         {
                             data: 'date_added',
