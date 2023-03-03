@@ -39,7 +39,7 @@
                 data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}"
                 data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
-                    <a href="https://multiversepos.com/home">
+                    <a href="#">
                         <img alt="Logo"
                             src="https://occ.a.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABa_hQikDefNRexdWI7FAjdloYhPnNwA1eQS6vj8LYndbp9_Recw1YxpV-10hpVcQs7aVJvrELUwr1osUdYkUqMMa2GC79cEo2xJrONUabp40.png?r=529"
                             class="h-30px logo" />
@@ -58,7 +58,7 @@
                         <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                             id="#kt_aside_menu" data-kt-menu="true">
                             <div class="menu-item">
-                                <a class=" menu-link active" href="https://multiversepos.com/home">
+                                <a class=" menu-link active" href="#">
                                     <span class="menu-icon">
                                         <i class="bi bi-house fs-3"></i>
                                     </span>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <a href="index.html" class="d-lg-none">
-                                <img alt="Logo responsive" src=""
+                                <img alt="Logo responsive" src="{{ asset('assets/ipman.png') }}" style="margin-bottom: 14px;"
                                     class="h-30px" />
                             </a>
                         </div>
@@ -96,9 +96,7 @@
                                     <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch"
                                         id="#kt_header_menu" data-kt-menu="true">
                                         <div class="menu-item me-lg-1">
-                                            <a class="menu-link active py-3" href="#">
-                                                <span class="menu-title">Dashboard</span>
-                                            </a>
+                                           <img src="{{ asset('assets/ipman.png') }}" alt="" style="    padding-bottom: 19px;">
                                         </div>
 
                                     </div>
@@ -122,21 +120,21 @@
                                                     </div>
                                                     <div class="profile_link d-flex flex-column">
                                                         <div class="fw-bolder d-flex align-items-center fs-5">
-                                                            Superadmin
+                                                            {{ auth()->user()->name }}
                                                             <span
                                                                 class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">admin</span>
                                                         </div>
                                                         <a href="#"
-                                                            class="fw-bold text-muted text-hover-primary fs-7">admin@ipman.com</a>
+                                                            class="fw-bold text-muted text-hover-primary fs-7">{{ auth()->user()->email }}</a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="separator my-2"></div>
 
                                             <div class="menu-item px-5">
-                                                <form action="https://multiversepos.com/logout" method="post">
-                                                    <input type="hidden" name="_token"
-                                                        value="FU898jYR0fcSkgeNYICB1XB3KvCOrE0QBlE05GVQ"> <button
+                                                <form action="{{ route('logout') }}" method="post">
+                                                    @csrf
+                                                    <button
                                                         type="submit" class="menu-link px-5 btn_as_a">
                                                         Sign Out </button>
                                                 </form>
@@ -449,13 +447,14 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
-    <script src="https://multiversepos.com/assets/plugins/global/plugins.bundle.js"></script>
-    <script src="https://multiversepos.com/assets/js/scripts.bundle.js"></script>
+    <script src="{{ asset('assets/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('assets/scripts.bundle.js') }}"></script>
+    <script src="{{ asset('assets/widgets.js') }}"></script>
+    <script src="{{ asset('assets/chat.js') }}"></script>
+    <script src="{{ asset('assets/create-app.js') }}"></script>
+    <script src="{{ asset('assets/upgrade-plan.js') }}"></script>
 
-    <script src="https://multiversepos.com/assets/js/custom/widgets.js"></script>
-    <script src="https://multiversepos.com/assets/js/custom/apps/chat/chat.js"></script>
-    <script src="https://multiversepos.com/assets/js/custom/modals/create-app.js"></script>
-    <script src="https://multiversepos.com/assets/js/custom/modals/upgrade-plan.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.5/dist/sweetalert2.all.min.js" charset="UTF-8"></script>
     <script>
         // sweetalert2

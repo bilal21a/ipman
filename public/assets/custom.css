@@ -62,7 +62,6 @@
     .activity_display {
         overflow: scroll !important;
     }
-
     .card-body.pt-5.activity_display {
         height: 500px;
     }
@@ -129,7 +128,7 @@
 
 @media only screen and (max-width: 600px) {
     body {
-        background-color: lightblue;
+        /* background-color: lightblue; */
     }
 }
 
@@ -146,9 +145,11 @@ input[type=checkbox] {
     margin-right: 0;
 }
 
+
 /* .roleEdit:hover{
     color: #009ef7 !important;
 } */
+
 .admin_name {
     color: #ED4293 !important;
 }
@@ -160,7 +161,6 @@ input[type=checkbox] {
 
 .permission_add :hover {
     color: #009ef7 !important;
-
 }
 
 #kt_permissions_table_length {
@@ -176,9 +176,11 @@ input[type=checkbox] {
     overflow: hidden !important;
 }
 
+
 /* .role_permission:hover{
     overflow: scroll !important;
 } */
+
 .viewDetailCard {
     height: 335px !important;
     width: 310px !important;

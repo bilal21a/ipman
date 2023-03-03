@@ -11,8 +11,6 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-
-        // -------------
         $start_ip = $request->start_ip ?? null;
         $end_ip = $request->end_ip ?? null;
         return view('welcome', compact('start_ip', 'end_ip'));
@@ -182,7 +180,7 @@ class HomeController extends Controller
                 }
             }
         } catch (\Throwable $th) {
-            return "<div class='alert alert-danger' role='alert'>".$th->getMessage()."</div>";
+            return "<div class='alert alert-danger' role='alert'>" . $th->getMessage() . "</div>";
         }
     }
 
