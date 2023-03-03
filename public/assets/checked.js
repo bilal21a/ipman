@@ -5,7 +5,7 @@ $(document).on('click', '.delete-all', function (e) {
     var msg = document.getElementById('del_msg').value;
     var confirm = document.getElementById('confirmation').value;
     var cancel = document.getElementById('cancel_it').value;
-    var product_Status = document.getElementById('product_Status').value;
+    var product_Status = "Addresses deleted successfully";
     let blukDelete = { ...Otable }
 
     let url = $(this).data('url');
